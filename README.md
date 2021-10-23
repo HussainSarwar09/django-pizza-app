@@ -51,7 +51,7 @@ Python Django, SQLite 3, Django Rest Framework and Django filters.
 ### 1: Create virtual environment
 
 1. Create a top level (1) folder called 'Pizza'
-2. Create a second level (2) folder called 'djangopizzaproject' and download this repository code into this folder
+2. Create a second level (2) folder called 'pizzaproject' and download this repository code into this folder
 3. Open a command promt terminal and navigate to 'Pizza' folder
 4. To set up a virtual environment, run `python -m venv <virtual_environment_name>`
 
