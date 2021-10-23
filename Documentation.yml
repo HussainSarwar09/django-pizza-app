@@ -1,0 +1,699 @@
+openapi: 3.0.0
+
+info:
+  description: 'This service contains the transaction to store information about different types of pizza, list the information about all different stored pizza and intereact with stored information using Django Rest Framework.'
+  version: 1.0.0
+  title: GSL Django Task API
+
+servers:
+  - url: https://localhost:8000
+    description: local server url 
+
+tags:
+  - name: size
+    description: Operations about sizes
+  - name: topping
+    description: Operations about toppings
+  - name: pizza
+    description: Operations about pizza
+
+paths:
+
+  '/api/size/':
+    get:
+      tags:
+        - size
+      summary: List sizes
+      description: Lists all the sizes from database
+      operationId: getSizes
+      responses:
+        '200':
+          description: Sizes fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SizeList'
+    post:
+      tags:
+        - size
+      summary: Add a size
+      description: Adds a new size to the database
+      operationId: addSize
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SizeForm'
+      responses:
+        '201':
+          description: Size added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Size'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameBlank'
+
+
+  '/api/size/{id}/':
+    get:
+      tags:
+        - size
+      summary: Find size by id
+      description: Finds a size by id and displays an object
+      operationId: getSizeById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Size'
+        '404':
+          description: Size not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+    put:
+      tags:
+        - size
+      summary: Update a size
+      description: Updates an existing size in database
+      operationId: updateSize
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        description: Size object that needs to be modified in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SizeForm'
+      responses:
+        '200':
+          description: Size updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Size'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameBlank'
+        '404':
+          description: Size not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+    delete:
+      tags:
+        - size
+      summary: Delete a size
+      description: ''
+      operationId: deleteSize
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          description: Size deleted successfully
+        '404':
+          description: Size not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+
+  '/api/topping/':
+    get:
+      tags:
+        - topping
+      summary: List toppings
+      description: Lists all the toppings from database
+      operationId: getToppings
+      responses:
+        '200':
+          description: Toppings fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToppingList'
+    post:
+      tags:
+        - topping
+      summary: Add a topping
+      operationId: addTopping
+      requestBody:
+        description: Adds a new topping to the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToppingForm'
+      responses:
+        '201':
+          description: Topping added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topping'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameBlank'
+
+
+  '/api/topping/{id}/':
+    get:
+      tags:
+        - topping
+      summary: Find topping by id
+      description: Finds a topping by id and displays an object
+      operationId: getToppingById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topping'
+        '404':
+          description: Topping not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+    put:
+      tags:
+        - topping
+      summary: Update a topping
+      description: Updates an existing topping in database
+      operationId: updateTopping
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        description: Topping object that needs to be modified in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToppingForm'
+
+      responses:
+        '200':
+          description: Topping updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Topping'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NameBlank'
+        '404':
+          description: Topping not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+    delete:
+      tags:
+        - topping
+      summary: Delete a topping
+      description: ''
+      operationId: deleteTopping
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          description: Topping deleted successfully
+        '404':
+          description: Topping not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'  
+
+
+  '/api/pizza/':
+    get:
+      tags:
+        - pizza
+      summary: List pizzas
+      description: Lists all the pizzas from database
+      operationId: getPizza
+      parameters:
+        - in: query
+          name: size
+          required: False
+          schema:
+            type: string
+        - in: query
+          name: type
+          required: False
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Pizza fetched
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PizzaList'
+                  - $ref: '#/components/schemas/EmptyPizzaList'
+    post:
+      tags:
+        - pizza
+      summary: Add a pizza
+      description: Adds a new pizza to the database
+      operationId: addPizza
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PizzaForm'
+      responses:
+        '200':
+          description: Pizza added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pizza'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PizzaError1'
+                  - $ref: '#/components/schemas/PizzaError2'
+                  - $ref: '#/components/schemas/PizzaError3'
+                  - $ref: '#/components/schemas/PizzaError4'
+
+
+  '/api/pizza/{id}/':
+    get:
+      tags:
+        - pizza
+      summary: Find pizza by id
+      description: Finds a pizza by id and displays an object
+      operationId: getPizzaById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pizza'
+        '404':
+          description: Pizza not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+    put:
+      tags:
+        - pizza
+      summary: Update a pizza
+      description: Updates an existing pizza in database
+      operationId: updatePizza
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        description: Size object that needs to be modified in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PizzaForm'
+      responses:
+        '200':
+          description: Pizza updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pizza'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PizzaError2'
+                  - $ref: '#/components/schemas/PizzaError3'
+                  - $ref: '#/components/schemas/PizzaError4'
+        '404':
+          description: pizza not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PizzaError5'
+    delete:
+      tags:
+        - pizza
+      summary: Delete a size
+      description: ''
+      operationId: deletePizza
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          description: pizza deleted successfully
+        '404':
+          description: pizza not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+
+components:
+  schemas:
+    
+    Size:
+      title: Size
+      description: Sizes that pizzas are available in.
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      example: 
+        id: 6
+        name: Small
+  
+    SizeList:
+      title: SizeList
+      description: List of sizes that pizzas are available in.
+      type: array
+      required:
+        - name
+      items:
+        $ref: '#/components/schemas/Size'
+      example:
+        - id: 4
+          name: Small
+        - id: 6
+          name: Large
+  
+    SizeForm:
+      title: SizeForm
+      description: Sizes that pizzas are available in.
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      example: 
+        name: Small
+  
+    Topping:
+      title: Topping
+      description: Toppings that can be added to pizza.
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      example: 
+        id: 1
+        name: Jalapenos
+  
+    ToppingList:
+      title: ToppingList
+      description: List of toppings that can be added to pizza.
+      type: array
+      required:
+        - name
+      items:
+        $ref: '#/components/schemas/Topping'
+      example:
+        - id: 10
+          name: Capsicum
+        - id: 20
+          name: Olives
+  
+    ToppingForm:
+      title: ToppingForm
+      description: Toppings that can be added to pizza
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      example: 
+        id: 4
+        name: Jalapenos
+  
+    Pizza:
+      title: Pizza
+      description: Pizza instance.
+      type: object
+      required:
+        - name
+        - type
+        - size
+        - toppings
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+          enum: [regular, square]
+        size:
+          $ref: '#/components/schemas/Size'
+        toppings:
+          $ref: '#/components/schemas/ToppingList'
+      example:
+        id: 6
+        name: Pizza 1
+        type: regular
+        size: 
+          id: 4
+          name: Medium
+        toppings:
+          - id: 6
+            name: Tomato
+          - id: 5
+            name: Capsicum
+          
+    PizzaList:
+      title: PizzaList
+      description: List of pizzas in the database.
+      type: array
+      required:
+        - name
+      items:
+        $ref: '#/components/schemas/Pizza'
+      example:
+        - id: 5
+          name: Pizza 3
+          type: regular
+          size: 
+            id: 4
+            name: Medium
+          toppings:
+            - id: 6
+              name: Tomato
+            - id: 5
+              name: Capsicum
+        - id: 7
+          name: Pizza 7
+          type: square
+          size: 
+            id: 1
+            name: Small
+          toppings:
+            - id: 1
+              name: Onion
+            - id: 5
+              name: Capsicum
+            - id: 4
+              name: Olives
+    
+    EmptyPizzaList:
+      title: EmptyPizzaList
+      description: Empty list of pizzas fetched from the database.
+      type: array
+      required:
+        - name
+      items:
+        type: string
+      example: []
+  
+    PizzaForm:
+      title: Pizza
+      description: Pizza instance.
+      type: object
+      required:
+        - name
+        - type
+        - size
+        - toppings
+      properties:
+        name:
+          type: string
+          example: Pizza 1
+        type:
+          type: string
+          enum: [regular, square]
+        size:
+          $ref: '#/components/schemas/SizeForm'
+        toppings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ToppingForm'
+      example:
+        name: Pizza 3
+        type: regular
+        size: 
+          name: Medium
+        toppings:
+          - name: Tomato
+          - name: Capsicum
+  
+    NotFound:
+      title: NotFound
+      description: Object not found
+      type: object
+      properties:
+        detail:
+          type: string
+          example: Not found.
+  
+    NameBlank:
+      title: NameBlank
+      description: Bad Request
+      type: object
+      properties:
+        name:
+          type: array
+          items:
+           $ref: '#/components/schemas/NameBlankMessage'
+          example: [This field may not be blank.]
+  
+    NameBlankMessage:
+      title: NameBlankMessage
+      description: Bad Request Value
+      type: string
+      properties:
+        name:
+          type: string
+          example: This field may not be blank.
+  
+    PizzaError1:
+      title: PizzaError1
+      description: Custom Error Handling - message when a POST request has the same 'name' field as an existing pizza record in the database.
+      type: object
+      properties:
+        error:
+          type: string
+          example: 'Serializer data is not valid! Please check the below errors and try again. Error Field: name; Error Message: pizza with this name already exists.'
+  
+    PizzaError2:
+      title: PizzaError2
+      description: Custom Error Handling - message when a POST/PUT request has an empty string in 'type' field. For a string that is not 'square' or 'regular', the input string appears in the error message.
+      type: object
+      properties:
+        error:
+          type: string
+          example: 'Serializer data is not valid! Please check the below errors and try again. Error Field: type; Error Message: \"\" is not a valid choice.'
+  
+    PizzaError3:
+      title: PizzaError3
+      description: Custom Error Handling - message when a POST/PUT request has 'size' that is not present in the database.
+      type: object
+      properties:
+        error:
+          type: string
+          example: 'Invalid entry in size field. Invalid entry in size field. Please check again.'
+          
+    PizzaError4:
+      title: PizzaError4
+      description: Custom Error Handling - message when a POST/PUT request has an empty string in 'name' field.
+      type: object
+      properties:
+        error:
+          type: string
+          example: 'Serializer data is not valid! Please check the below errors and try again. Error Field: name; Error Message: This field may not be blank.'
+
+    PizzaError5:
+      title: PizzaError5
+      description: Custom Error Handling - message when a PUT request does not find a pizza for the path parameter 'id'.
+      type: object
+      properties:
+        error:
+          type: string
+          example: 'No valid pizza entry exists for the id specified.'
